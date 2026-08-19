@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Work Progress Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <strong>Progress</strong>
+            <span>Work dashboard</span>
+          </div>
+        </div>
+        <nav class="nav">
+          <button class="nav-btn active" data-view="overview">Overview</button>
+          <button class="nav-btn" data-view="projects">Projects</button>
+          <button class="nav-btn" data-view="tasks">Tasks</button>
+        </nav>
+        <div class="sidebar-foot">
+          <button id="export-btn" class="ghost">Export JSON</button>
+          <label class="ghost file-label">
+            Import
+            <input id="import-input" type="file" accept="application/json" hidden />
+          </label>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <h1 id="page-title">Overview</h1>
+            <p id="page-subtitle">Track how work is moving across projects.</p>
+          </div>
+          <div class="top-actions">
+            <button id="add-project-btn" class="secondary">New project</button>
+            <button id="add-task-btn" class="primary">New task</button>
+          </div>
+        </header>
+
+        <section id="view-overview" class="view">
+          <div class="kpis" id="kpi-grid"></div>
+          <div class="grid-2">
+            <article class="panel">
+              <h2>Project progress</h2>
+              <div id="project-progress-list"></div>
+            </article>
+            <article class="panel">
+              <h2>Due this week</h2>
+              <div id="upcoming-list"></div>
+            </article>
+          </div>
+          <article class="panel">
+            <h2>Status mix</h2>
+            <div id="status-bars" class="status-bars"></div>
+          </article>
+        </section>
+
+        <section id="view-projects" class="view hidden">
+          <div id="projects-grid" class="projects-grid"></div>
+        </section>
+
+        <section id="view-tasks" class="view hidden">
+          <div class="filters">
+            <input id="search" type="search" placeholder="Search tasks…" />
+            <select id="filter-project">
+              <option value="">All projects</option>
+            </select>
+            <select id="filter-status">
+              <option value="">All statuses</option>
+              <option value="todo">To do</option>
+              <option value="in-progress">In progress</option>
+              <option value="blocked">Blocked</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>Project</th>
+                  <th>Status</th>
+                  <th>Priority</th>
+                  <th>Due</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="task-rows"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="modal">
+      <form id="modal-form" method="dialog">
+        <h2 id="modal-title">New task</h2>
+        <div id="modal-fields" class="form-grid"></div>
+        <div class="modal-actions">
+          <button type="button" class="ghost" id="modal-cancel">Cancel</button>
+          <button type="submit" class="primary">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
