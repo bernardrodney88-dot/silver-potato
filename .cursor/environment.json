@@ -1,0 +1,17 @@
+{
+  "name": "Work Progress Dashboard",
+  "install": "true",
+  "terminals": [
+    {
+      "name": "Web Server",
+      "command": "python3 -m http.server 8080 --bind 0.0.0.0",
+      "description": "Serves the static work progress dashboard on port 8080"
+    }
+  ],
+  "ports": [
+    {
+      "name": "Web Server",
+      "port": 8080
+    }
+  ]
+}
