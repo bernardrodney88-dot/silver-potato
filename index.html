@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quantum Progress Observatory</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <meta
+      name="description"
+      content="A live-style dashboard of quantum computing progress: logical qubits, hardware, error correction, and the road to fault tolerance."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="bg-glow" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="mark" aria-hidden="true"></span>
+        <div>
+          <p class="eyebrow">Observatory</p>
+          <h1>Quantum progress</h1>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Sections">
+        <a href="#overview">Overview</a>
+        <a href="#leaderboard">Logical qubits</a>
+        <a href="#hardware">Hardware</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#roadmap">Roadmap</a>
+      </nav>
+      <p class="as-of">Compiled Aug 2026 · public reports</p>
+    </header>
+
+    <main>
+      <section id="overview" class="hero">
+        <div class="hero-copy">
+          <p class="kicker">From noisy qubits to encoded machines</p>
+          <h2>
+            The field has shifted from counting physical qubits to proving
+            <em>logical</em> ones.
+          </h2>
+          <p class="lede">
+            In two years, verified logical-qubit demonstrations jumped from a
+            handful to nearly a hundred. This dashboard tracks that inflection:
+            who is encoding what, how efficiently, and what still stands between
+            today’s labs and utility-scale machines.
+          </p>
+        </div>
+        <div class="kpi-grid" id="kpis"></div>
+      </section>
+
+      <section class="panel" id="charts">
+        <div class="panel-head">
+          <div>
+            <h3>Logical-qubit race</h3>
+            <p>Verified public demonstrations, not roadmap targets.</p>
+          </div>
+          <div class="legend-note">
+            Neutral atom · trapped ion · superconducting · bosonic
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="logicalRaceChart" height="110"></canvas>
+        </div>
+      </section>
+
+      <div class="split">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Encoding efficiency</h3>
+              <p>Physical qubits per logical qubit — lower is better.</p>
+            </div>
+          </div>
+          <div class="chart-wrap short">
+            <canvas id="ratioChart" height="180"></canvas>
+          </div>
+        </section>
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Modality mix</h3>
+              <p>Share of verified logical-qubit entries.</p>
+            </div>
+          </div>
+          <div class="chart-wrap short">
+            <canvas id="modalityChart" height="180"></canvas>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel" id="leaderboard">
+        <div class="panel-head">
+          <div>
+            <h3>Verified logical-qubit leaderboard</h3>
+            <p>
+              Inclusion follows published demonstrations (journals, preprints, or
+              official hardware results). Filter by modality.
+            </p>
+          </div>
+          <div class="filters" id="modalityFilters" role="tablist" aria-label="Modality filter"></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Platform</th>
+                <th>Logical</th>
+                <th>Physical</th>
+                <th>Ratio</th>
+                <th>QEC</th>
+                <th>Modality</th>
+                <th>When</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel" id="hardware">
+        <div class="panel-head">
+          <div>
+            <h3>Hardware snapshot</h3>
+            <p>
+              Flagship systems and the metrics they are actually competing on in
+              2026: fidelity, connectivity, and encoded qubits — not just scale.
+            </p>
+          </div>
+        </div>
+        <div class="card-grid" id="hardwareCards"></div>
+      </section>
+
+      <div class="split">
+        <section class="panel" id="fidelity">
+          <div class="panel-head">
+            <div>
+              <h3>Two-qubit gate fidelity</h3>
+              <p>Reported peak figures. Not all are apples-to-apples.</p>
+            </div>
+          </div>
+          <div class="chart-wrap short">
+            <canvas id="fidelityChart" height="180"></canvas>
+          </div>
+        </section>
+        <section class="panel" id="era">
+          <div class="panel-head">
+            <div>
+              <h3>Where the field sits</h3>
+              <p>NISQ is not over. Fault tolerance is no longer theoretical.</p>
+            </div>
+          </div>
+          <ol class="era-list" id="eraList"></ol>
+        </section>
+      </div>
+
+      <section class="panel" id="timeline">
+        <div class="panel-head">
+          <div>
+            <h3>Milestone timeline</h3>
+            <p>Theory → supremacy → logical qubits. Filter by era.</p>
+          </div>
+          <div class="filters" id="eraFilters"></div>
+        </div>
+        <ol class="timeline" id="timelineList"></ol>
+      </section>
+
+      <section class="panel" id="roadmap">
+        <div class="panel-head">
+          <div>
+            <h3>Public roadmaps, 2026–2033</h3>
+            <p>Targets, not verified results. Treat as directional.</p>
+          </div>
+        </div>
+        <div class="roadmap" id="roadmapTrack"></div>
+      </section>
+
+      <section class="panel" id="applications">
+        <div class="panel-head">
+          <div>
+            <h3>Application readiness</h3>
+            <p>
+              Honest status vs. hype. None of these are “solved”; some are
+              approaching useful niches.
+            </p>
+          </div>
+        </div>
+        <div class="apps" id="appsList"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Figures compiled from public company announcements, Nature papers, and
+        secondary trackers (Quantum Zeitgeist leaderboard, entangledfuture
+        timeline). Secondary sources can lag or disagree — treat counts as a
+        snapshot, not a metrology standard.
+      </p>
+      <p>Quantum Progress Observatory · silver-potato</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
