@@ -1,5 +1,7 @@
 # Mumbai & Navi Mumbai startups you can approach with Cursor
 
+For physics/sensing/control ideas (cold-chain twin, NIR adulteration, JNPT yard model, etc.) see [deeptech-ideas-mmr.md](deeptech-ideas-mmr.md).
+
 This is a working outreach list, not a directory of every funded company in MMR. The filter is simple: **small enough to take a cold meeting**, **clear product pain**, and **a 3–10 day build you can ship with Cursor** (web app, internal tool, WhatsApp/ops bot, dashboard, plugin, landing + CRM, OCR workflow, test suite, or a customer-facing AI feature).
 
 Skip pitching unicorns (Jupiter, Razorpay, PharmEasy, etc.). They already have large engineering teams. Target **1–50 person companies**, **recently funded seed/Series A**, and **incubator tenants** who will sit with you the same week.
