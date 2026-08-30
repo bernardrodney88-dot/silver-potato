@@ -1,0 +1,69 @@
+=== mumbai_nominal ===
+VayuCell 1-D physics simulation
+  u=1.74 m/s, SED=7.20 J/L
+  RH=75%, O3 yield scale=0.57, OH yield scale=2.57
+  WESP A=5.04 m², Deutsch mass remaining=0.085
+
+species            in        out    reduction
+  pm25         150.00      12.44       91.7 %   µg/m³
+  no            40.00      13.03       67.4 %   ppb
+  no2           80.00      76.32        4.6 %   ppb
+  nox          120.00      89.34       25.5 %   ppb
+  voc          300.00     106.07       64.6 %   ppb
+  o3            20.00       0.62       96.9 %   ppb
+
+=== dry_air ===
+VayuCell 1-D physics simulation
+  u=1.74 m/s, SED=7.20 J/L
+  RH=25%, O3 yield scale=0.96, OH yield scale=1.14
+  WESP A=5.04 m², Deutsch mass remaining=0.092
+
+species            in        out    reduction
+  pm25         150.00      13.48       91.0 %   µg/m³
+  no            40.00      12.37       69.1 %   ppb
+  no2           80.00      76.86        3.9 %   ppb
+  nox          120.00      89.22       25.6 %   ppb
+  voc          300.00     106.51       64.5 %   ppb
+  o3            20.00       1.05       94.8 %   ppb
+
+=== plasma_off ===
+VayuCell 1-D physics simulation
+  u=1.74 m/s, SED=7.20 J/L
+  RH=75%, O3 yield scale=0.57, OH yield scale=2.57
+  WESP A=5.04 m², Deutsch mass remaining=0.085
+
+species            in        out    reduction
+  pm25         150.00      12.44       91.7 %   µg/m³
+  no            40.00      40.00        0.0 %   ppb
+  no2           80.00      54.36       32.1 %   ppb
+  nox          120.00      94.36       21.4 %   ppb
+  voc          300.00     151.20       49.6 %   ppb
+  o3            20.00       0.01      100.0 %   ppb
+
+=== catalyst_fail ===
+VayuCell 1-D physics simulation
+  u=1.74 m/s, SED=7.20 J/L
+  RH=75%, O3 yield scale=0.57, OH yield scale=2.57
+  WESP A=5.04 m², Deutsch mass remaining=0.085
+
+species            in        out    reduction
+  pm25         150.00      12.44       91.7 %   µg/m³
+  no            40.00      13.03       67.4 %   ppb
+  no2           80.00      93.73      -17.2 %   ppb
+  nox          120.00     106.76       11.0 %   ppb
+  voc          300.00     210.46       29.8 %   ppb
+  o3            20.00    1386.80    -6834.0 %   ppb
+
+=== wesp_off ===
+VayuCell 1-D physics simulation
+  u=1.74 m/s, SED=7.20 J/L
+  RH=75%, O3 yield scale=0.57, OH yield scale=2.57
+  WESP A=5.04 m², Deutsch mass remaining=0.965
+
+species            in        out    reduction
+  pm25         150.00     139.53        7.0 %   µg/m³
+  no            40.00      13.03       67.4 %   ppb
+  no2           80.00      87.10       -8.9 %   ppb
+  nox          120.00     100.12       16.6 %   ppb
+  voc          300.00     106.07       64.6 %   ppb
+  o3            20.00       0.62       96.9 %   ppb
