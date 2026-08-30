@@ -11,6 +11,8 @@ npm run dev
 
 Open the printed local URL. Progress is stored in `localStorage` (key `fovea-progress-v1`).
 
+Live demo (GitHub Pages): https://bernardrodney88-dot.github.io/silver-potato/
+
 ```bash
 npm test     # algorithm unit tests
 npm run build
