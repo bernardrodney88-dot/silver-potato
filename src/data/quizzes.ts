@@ -12,6 +12,42 @@ export type Quiz = {
 
 export const QUIZZES: Quiz[] = [
   {
+    id: "corr-vs-conv",
+    track: "fundamentals",
+    q: "In deep learning libraries, conv2d usually implements:",
+    choices: [
+      { id: "a", text: "True convolution (kernel flipped)", ok: false },
+      { id: "b", text: "Cross-correlation (no flip)", ok: true },
+      { id: "c", text: "Only FFT convolution", ok: false },
+      { id: "d", text: "Max pooling", ok: false },
+    ],
+    explain: "Learned weights absorb the flip. Say this out loud so nobody nits you on the board.",
+  },
+  {
+    id: "same-pad",
+    track: "fundamentals",
+    q: "For a 3×3 kernel, stride 1, 'same' spatial size needs padding:",
+    choices: [
+      { id: "a", text: "0", ok: false },
+      { id: "b", text: "1 on each side", ok: true },
+      { id: "c", text: "3", ok: false },
+      { id: "d", text: "Kernel size", ok: false },
+    ],
+    explain: "p = (k−1)/2 for odd kernels at stride 1. Even kernels make 'same' messy — mention it.",
+  },
+  {
+    id: "gray",
+    track: "fundamentals",
+    q: "A reasonable RGB→luma (BT.601-ish) mix is closest to:",
+    choices: [
+      { id: "a", text: "Equal 1/3 weights", ok: false },
+      { id: "b", text: "Heavier green (e.g. 0.299R + 0.587G + 0.114B)", ok: true },
+      { id: "c", text: "Only the blue channel", ok: false },
+      { id: "d", text: "HSV hue", ok: false },
+    ],
+    explain: "Human luminance is green-heavy. Mean RGB is a fine baseline if you name the shortcut.",
+  },
+  {
     id: "rf-stack",
     track: "cnns",
     q: "Two 3×3 convs, stride 1, no dilation. Receptive field on the input?",
