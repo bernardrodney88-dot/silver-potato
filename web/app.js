@@ -49,68 +49,72 @@ async function post(url, body) {
 
 $("#safe-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const fd = new FormData(e.target);
-  const payload = {
-    chemistry: fd.get("chemistry"),
-    htc_w_m2k: Number(fd.get("htc_w_m2k")),
-    k_contact_w_k: Number(fd.get("k_contact_w_k")),
-    trigger_temperature_c: Number(fd.get("trigger_temperature_c")),
-    duration_s: 600,
-    rows: 4,
-    cols: 4,
-  };
-  const data = await post("/api/simulate/runaway", payload);
-  const s = data.sim;
-  const ins = data.insurance;
-  kpis($("#safe-kpis"), [
-    ["Cells failed", `${s.cells_failed} / ${s.cells_total}`],
-    ["Peak °C", s.peak_temp_c.toFixed(0)],
-    ["Contained", s.contained ? "YES" : "NO"],
-    ["Tech premium", money(ins.technical_premium_usd)],
-    ["Insurable", ins.insurable ? "YES" : "NO"],
-    ["P(cascade)", (ins.p_cascade_given_abuse * 100).toFixed(1) + "%"],
-  ]);
-  const ctx = $("#safe-chart");
-  if (safeChart) safeChart.destroy();
-  safeChart = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: s.time_s.filter((_, i) => i % 8 === 0).map((t) => t.toFixed(0) + "s"),
-      datasets: [
-        {
-          label: "Max cell °C",
-          data: s.max_temp_c.filter((_, i) => i % 8 === 0),
-          borderColor: "#ff5d6c",
-          tension: 0.15,
-          pointRadius: 0,
-        },
-        {
-          label: "Mean °C",
-          data: s.mean_temp_c.filter((_, i) => i % 8 === 0),
-          borderColor: "#f2b544",
-          tension: 0.15,
-          pointRadius: 0,
-        },
-      ],
-    },
-    options: {
-      plugins: { legend: { labels: { color: "#8ea0b5" } } },
-      scales: {
-        x: { ticks: { color: "#8ea0b5", maxTicksLimit: 8 } },
-        y: { ticks: { color: "#8ea0b5" } },
+  try {
+    const fd = new FormData(e.target);
+    const payload = {
+      chemistry: fd.get("chemistry"),
+      htc_w_m2k: Number(fd.get("htc_w_m2k")),
+      k_contact_w_k: Number(fd.get("k_contact_w_k")),
+      trigger_temperature_c: Number(fd.get("trigger_temperature_c")),
+      duration_s: 180,
+      rows: 4,
+      cols: 4,
+    };
+    const data = await post("/api/simulate/runaway", payload);
+    const s = data.sim;
+    const ins = data.insurance;
+    kpis($("#safe-kpis"), [
+      ["Cells failed", `${s.cells_failed} / ${s.cells_total}`],
+      ["Peak °C", s.peak_temp_c.toFixed(0)],
+      ["Contained", s.contained ? "YES" : "NO"],
+      ["Underwriting", ins.underwriting],
+      ["Quoted premium", ins.insurable ? money(ins.quoted_premium_usd) : "DECLINE"],
+      ["P(cascade)", (ins.p_cascade_given_abuse * 100).toFixed(1) + "%"],
+    ]);
+    const ctx = $("#safe-chart");
+    if (safeChart) safeChart.destroy();
+    safeChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: s.time_s.filter((_, i) => i % 8 === 0).map((t) => t.toFixed(0) + "s"),
+        datasets: [
+          {
+            label: "Max cell °C",
+            data: s.max_temp_c.filter((_, i) => i % 8 === 0),
+            borderColor: "#ff5d6c",
+            tension: 0.15,
+            pointRadius: 0,
+          },
+          {
+            label: "Mean °C",
+            data: s.mean_temp_c.filter((_, i) => i % 8 === 0),
+            borderColor: "#f2b544",
+            tension: 0.15,
+            pointRadius: 0,
+          },
+        ],
       },
-    },
-  });
-  const map = $("#safe-map");
-  map.style.gridTemplateColumns = `repeat(${s.cols}, 1fr)`;
-  map.innerHTML = s.final_temp_c
-    .map((t, i) => {
-      const a = s.final_alpha[i];
-      const hot = Math.min(1, Math.max(0, (t - 30) / 500));
-      const bg = `rgb(${Math.round(40 + 200 * hot)}, ${Math.round(30 + 40 * (1 - hot))}, ${Math.round(40 + 80 * (1 - hot))})`;
-      return `<div style="background:${bg}">${t.toFixed(0)}° · α ${a.toFixed(2)}</div>`;
-    })
-    .join("");
+      options: {
+        plugins: { legend: { labels: { color: "#8ea0b5" } } },
+        scales: {
+          x: { ticks: { color: "#8ea0b5", maxTicksLimit: 8 } },
+          y: { ticks: { color: "#8ea0b5" } },
+        },
+      },
+    });
+    const map = $("#safe-map");
+    map.style.gridTemplateColumns = `repeat(${s.cols}, 1fr)`;
+    map.innerHTML = s.final_temp_c
+      .map((t, i) => {
+        const a = s.final_alpha[i];
+        const hot = Math.min(1, Math.max(0, (t - 30) / 500));
+        const bg = `rgb(${Math.round(40 + 200 * hot)}, ${Math.round(30 + 40 * (1 - hot))}, ${Math.round(40 + 80 * (1 - hot))})`;
+        return `<div style="background:${bg}">${t.toFixed(0)}° · α ${a.toFixed(2)}</div>`;
+      })
+      .join("");
+  } catch (err) {
+    kpis($("#safe-kpis"), [["Simulation error", String(err)]]);
+  }
 });
 
 $("#life-form").addEventListener("submit", async (e) => {

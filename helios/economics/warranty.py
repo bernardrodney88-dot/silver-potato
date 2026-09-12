@@ -50,12 +50,19 @@ def insurance_loading(
     limit_usd: float | None = None,
 ) -> dict:
     limit = limit_usd or nameplate_mwh * 1.2e6
-    p_cascade = min(0.45, 0.01 + 0.55 * propagation_fraction**1.4)
-    severity = min(1.0, 0.15 + (peak_temp_c / 900.0) * 0.9)
-    aal = limit * p_cascade * severity  # average annual loss if one qualifying event/yr rate later
-    event_rate = 0.012 * (0.4 + propagation_fraction)
-    aal *= event_rate / 0.012
-    tech_premium = 1.35 * aal + 0.004 * limit
+    p_cascade = min(0.55, 0.008 + 0.62 * propagation_fraction**1.25)
+    # Single-cell TR is a known 9540A event; severity scales with how much of the lattice fails.
+    if propagation_fraction <= 0.07:
+        severity = 0.06 + min(0.04, max(0.0, peak_temp_c - 200.0) / 8000.0)
+    else:
+        severity = min(0.95, 0.12 + 0.85 * propagation_fraction)
+    event_rate = 0.008 * (0.35 + propagation_fraction)
+    aal = limit * p_cascade * severity * (event_rate / 0.008)
+    expense = 0.0035 * limit
+    tech_premium = 1.25 * aal + expense
+    contained = propagation_fraction <= 0.07
+    insurable = contained or p_cascade < 0.22
+    quoted = tech_premium if insurable else None
     return {
         "p_cascade_given_abuse": p_cascade,
         "event_rate_per_year": event_rate,
@@ -63,8 +70,11 @@ def insurance_loading(
         "limit_usd": limit,
         "aal_usd": aal,
         "technical_premium_usd": tech_premium,
-        "rate_on_line": tech_premium / limit,
-        "insurable": p_cascade < 0.25 and peak_temp_c < 780,
+        "quoted_premium_usd": quoted,
+        "rate_on_line": (quoted or tech_premium) / limit,
+        "insurable": insurable,
+        "underwriting": "BIND" if insurable else "DECLINE",
+        "contained_event": contained,
     }
 
 

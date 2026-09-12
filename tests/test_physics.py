@@ -43,8 +43,11 @@ def test_cooling_contains_runaway():
 def test_aging_faster_when_hot():
     cool = remaining_useful_life(20.0, 0.5, 1.0)
     hot = remaining_useful_life(45.0, 0.5, 1.0)
+    mid = remaining_useful_life(35.0, 0.55, 1.0)
     assert hot["fade_per_year"] > cool["fade_per_year"]
     assert hot["rul_years"] < cool["rul_years"]
+    assert 0.015 < mid["fade_per_year"] < 0.08
+    assert 2.0 < mid["rul_years"] < 20.0
 
 
 def test_module_heats_under_load():
@@ -65,6 +68,7 @@ def test_warranty_and_insurance_signed():
     ins = insurance_loading(0.4, 700.0)
     assert war["warranty_reserve_usd"] > 0
     assert ins["technical_premium_usd"] > 0
+    assert ins["underwriting"] in {"BIND", "DECLINE"}
 
 
 def test_dispatch_refuses_tiny_spreads():
