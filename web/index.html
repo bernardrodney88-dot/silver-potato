@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Helios Lattice — Digital twins deeptech pays for</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <div class="mark">HL</div>
+      <div>
+        <strong>Helios Lattice</strong>
+        <div class="sub">Physics twins for packs, plants, and warranties</div>
+      </div>
+    </div>
+    <nav>
+      <button data-tab="safety" class="on">Safety Twin</button>
+      <button data-tab="life">Warranty</button>
+      <button data-tab="plant">Plant Yield</button>
+      <button data-tab="ems">Dispatch</button>
+      <button data-tab="skus">Products</button>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <p class="kicker">Deeptech software that already has a budget line</p>
+    <h1>Sell the twin that sits between a failed UL test and a $40M write-down.</h1>
+    <p class="lede">
+      Cell-to-module thermal runaway, remaining-useful-life, coating scrap, and cycling economics —
+      one kernel, five SKUs insurers, OEMs, and gigafactories already pay Ansys, Aspen, and IEs for.
+    </p>
+  </section>
+
+  <main>
+    <article id="safety" class="panel show">
+      <div class="grid">
+        <form id="safe-form" class="card">
+          <h2>Lattice Safety Twin</h2>
+          <label>Chemistry
+            <select name="chemistry">
+              <option value="nmc811">NMC 811</option>
+              <option value="nca">NCA</option>
+              <option value="lfp">LFP</option>
+            </select>
+          </label>
+          <label>Cooling HTC (W/m²K) <input name="htc_w_m2k" type="range" min="6" max="50" value="18" /><span class="val" data-for="htc_w_m2k">18</span></label>
+          <label>Cell-to-cell conductance (W/K) <input name="k_contact_w_k" type="range" min="0.3" max="3.5" step="0.1" value="1.6" /><span class="val" data-for="k_contact_w_k">1.6</span></label>
+          <label>Trigger °C <input name="trigger_temperature_c" type="range" min="120" max="240" value="185" /><span class="val" data-for="trigger_temperature_c">185</span></label>
+          <button type="submit">Run abuse simulation</button>
+          <p class="hint">Lumped Arrhenius source + 4×4 lattice conduction. Engineering twin, not full CFD — same class of model used to size cooling before the $250k 9540A campaign.</p>
+        </form>
+        <div class="card">
+          <h2>Cascade & insurance</h2>
+          <div id="safe-kpis" class="kpis"></div>
+          <canvas id="safe-chart" height="140"></canvas>
+          <div id="safe-map" class="heatmap"></div>
+        </div>
+      </div>
+    </article>
+
+    <article id="life" class="panel">
+      <div class="grid">
+        <form id="life-form" class="card">
+          <h2>Lattice Warranty Engine</h2>
+          <label>Mean cell °C <input name="temperature_c" type="range" min="15" max="55" value="35" /><span class="val" data-for="temperature_c">35</span></label>
+          <label>SOC <input name="soc" type="range" min="0.2" max="0.9" step="0.05" value="0.55" /><span class="val" data-for="soc">0.55</span></label>
+          <label>Equivalent full cycles / day <input name="cycles_per_day" type="range" min="0.2" max="2.5" step="0.1" value="1.0" /><span class="val" data-for="cycles_per_day">1.0</span></label>
+          <button type="submit">Price the warranty</button>
+        </form>
+        <div class="card">
+          <h2>Reserve vs physics</h2>
+          <div id="life-kpis" class="kpis"></div>
+          <canvas id="mod-chart" height="140"></canvas>
+          <button id="mod-run" type="button" class="ghost">Also run 15 min electro-thermal module</button>
+        </div>
+      </div>
+    </article>
+
+    <article id="plant" class="panel">
+      <div class="grid">
+        <form id="plant-form" class="card">
+          <h2>Lattice Plant Yield Twin</h2>
+          <label>Line speed (m/min) <input name="line_speed_m_min" type="range" min="25" max="80" value="45" /><span class="val" data-for="line_speed_m_min">45</span></label>
+          <label>Dryer °C <input name="dryer_temp_c" type="range" min="95" max="155" value="125" /><span class="val" data-for="dryer_temp_c">125</span></label>
+          <label>Slurry solids <input name="slurry_solids_frac" type="range" min="0.5" max="0.72" step="0.01" value="0.62" /><span class="val" data-for="slurry_solids_frac">0.62</span></label>
+          <button type="submit">Simulate shift</button>
+        </form>
+        <div class="card">
+          <h2>Scrap $ / shift</h2>
+          <div id="plant-kpis" class="kpis"></div>
+          <p id="plant-rec" class="rec"></p>
+        </div>
+      </div>
+    </article>
+
+    <article id="ems" class="panel">
+      <div class="grid">
+        <form id="ems-form" class="card">
+          <h2>Lattice Dispatch Co-optimizer</h2>
+          <label>Spread $/MWh <input name="spread_usd_per_mwh" type="range" min="10" max="180" value="55" /><span class="val" data-for="spread_usd_per_mwh">55</span></label>
+          <label>Cycles / day <input name="cycles_per_day" type="range" min="0.2" max="2.4" step="0.1" value="1.2" /><span class="val" data-for="cycles_per_day">1.2</span></label>
+          <label>Pack °C <input name="temperature_c" type="range" min="18" max="48" value="32" /><span class="val" data-for="temperature_c">32</span></label>
+          <button type="submit">Should we cycle?</button>
+        </form>
+        <div class="card">
+          <h2>Revenue vs degradation</h2>
+          <div id="ems-kpis" class="kpis"></div>
+        </div>
+      </div>
+    </article>
+
+    <article id="skus" class="panel">
+      <div id="sku-list" class="sku-grid"></div>
+    </article>
+  </main>
+  <footer>
+    Helios Lattice kernel v0.1 — lumped electro-thermal + Arrhenius runaway + SEI aging + coating Damköhler.
+    Not a substitute for certified test data. Built to sit in front of the test.
+  </footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>
